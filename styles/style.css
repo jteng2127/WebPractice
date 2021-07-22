@@ -1,0 +1,13 @@
+input[value="234"] {
+  color: blue;
+}
+
+.btn {
+  background-color: lightgray;
+  cursor: pointer;
+}
+
+.btn p {
+  color: blue;
+}
+/*# sourceMappingURL=style.css.map */

@@ -1,0 +1,15 @@
+input[value="234"] {
+	color: blue;
+}
+
+.btn {
+	background-color: lightgray;
+	cursor: pointer;
+	p {
+		color: blue;
+	}
+}
+
+@mixin test($size){
+	
+}
