@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+	<meta charset="UTF-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="viewport" content="width=device-width, initial-scale=1.0">
+	<title>Document</title>
+	<style>
+
+	</style>
+</head>
+<body>
+	<input id="text1" type="text" value="">
+	<button onclick="input_digit(this)">0</button>
+	<button onclick="input_digit(this)">1</button>
+	<button onclick="input_digit(this)">2</button>
+	<button onclick="input_digit(this)">3</button>
+	<button onclick="input_digit(this)">4</button>
+	<button onclick="input_digit(this)">5</button>
+	<button onclick="input_digit(this)">6</button>
+	<button onclick="input_digit(this)">7</button>
+	<button onclick="input_digit(this)">8</button>
+	<button onclick="input_digit(this)">9</button>
+	<button onclick="input_operator(this)">+</button>
+	<button onclick="input_operator(this)">-</button>
+	<button onclick="input_operator(this)">*</button>
+	<button onclick="input_operator(this)">/</button>
+	<button onclick="input_operator(this)">=</button>
+	<button onclick="test()">test</button>
+	<script>
+		var ans = 0;
+		var operation = "+";
+		var is_operating = 0;
+		function input_digit(obj){
+			var item = document.getElementById("text1");
+			if(is_operating == 1){
+				item.value = "";
+				is_operating = 0;
+			}
+			item.value += obj.textContent;
+		}
+		function input_operator(obj){
+			var item = document.getElementById("text1");
+			if(operation == "+") ans += parseInt(item.value);
+			else if(operation == "-") ans -= parseInt(item.value);
+			else if(operation == "*") ans *= parseInt(item.value);
+			else if(operation == "/") ans /= parseInt(item.value);
+			item.value = ans;
+			is_operating = 1;
+			operation = obj.textContent;
+			if(operation == "="){
+				ans = 0;
+				operation = "+";
+			}
+		}
+		let 
+		function test(){
+			for (let j = 0; j < 10; j++){
+				console.log(j);
+				for (let i = 0; i < 500000000; i++) { }
+			}
+		}
+	</script>
+</body>
+</html>
