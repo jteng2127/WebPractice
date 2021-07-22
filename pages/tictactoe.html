@@ -10,6 +10,16 @@
 			border: 2px black solid;
 			width: 200px;
 			height: 200px;
+			font-size: 150px;
+			font-family: Calibri, 'Gill Sans', 'Gill Sans MT', 'Trebuchet MS', sans-serif;
+			color: gray;
+			cursor: default;
+		}
+
+		#winner-message {
+			text-align: center;
+			margin: auto;
+			font-size: 50px
 		}
 	</style>
 </head>
@@ -17,24 +27,133 @@
 	<div style="margin: auto">
 		<table style="margin: auto; text-align: center;">
 			<tr class="game-row">
-				<td class="game-cell">test</td>
-				<td class="game-cell">test</td>
-				<td class="game-cell">test</td>
+				<td class="game-cell"></td>
+				<td class="game-cell"></td>
+				<td class="game-cell"></td>
 			</tr>
 			<tr class="game-row">
-				<td class="game-cell">test</td>
-				<td class="game-cell">test</td>
-				<td class="game-cell">test</td>
+				<td class="game-cell"></td>
+				<td class="game-cell"></td>
+				<td class="game-cell"></td>
 			</tr>
 			<tr class="game-row">
-				<td class="game-cell">test</td>
-				<td class="game-cell">test</td>
-				<td class="game-cell">test</td>
+				<td class="game-cell"></td>
+				<td class="game-cell"></td>
+				<td class="game-cell"></td>
 			</tr>
 		</table>
+		<div style="margin: auto;">
+			<p align="center">
+				<span id="winner-message"></span>
+				<button id="reset" onclick="game_reset()">reset</button>
+			</p>
+		</div>
 	</div>
-	<script>
 
+	<script>
+		var game_cell = document.getElementsByClassName('game-cell');
+		var game_state = new Array(9).fill(0);
+		var cur_player = 1;
+		var player_symbol = " OX";
+		var isplaying = true;
+
+		Array.prototype.forEach.call(game_cell, function(x, i){
+			x.addEventListener('mouseenter', function (){ gameCellEnter(x, i); });
+		});
+		Array.prototype.forEach.call(game_cell, function(x, i){
+			x.addEventListener('mouseout', function (){ gameCellLeave(x, i); });
+		});
+		Array.prototype.forEach.call(game_cell, function(x, i){
+			x.addEventListener('click', function (){ gameCellClick(x, i); });
+		});
+
+		function gameCellEnter(x, i){
+			if(isplaying && game_state[i] == 0){
+				x.style.backgroundColor = "#D8FBD8";
+				x.innerText = player_symbol[cur_player];
+				x.style.color = "gray";
+				x.style.cursor = "pointer";
+			}
+		}
+		function gameCellLeave(x, i){
+			if(isplaying && game_state[i] == 0){
+				x.style.backgroundColor = "";
+				x.innerText = "";
+				x.style.cursor = "default";
+			}
+		}
+		function gameCellClick(x, i){
+			if(isplaying && game_state[i] == 0){
+				game_state[i] = cur_player;
+				x.style.backgroundColor = "";
+				x.style.color = "black";
+				x.style.cursor = "default";
+
+				check_win();
+				if(isplaying){
+					cur_player = 3 - cur_player;
+					// if(!game_state.includes(0)){
+					if(game_state.indexOf(0) < 0){
+						winner_message = document.getElementById("winner-message");
+						winner_message.innerText = "Tie!";
+					}
+				}
+			}
+		}
+
+		function check_win(){
+			var win;
+
+			for(i = 0; i < 9; i += 3){
+				win = 1;
+				for(j = i; j < i+2; j++){
+					if(game_state[j] != game_state[j+1]) win = 0;
+				}
+				if(win && game_state[i]){
+					show_winner(game_state[i]);
+				}
+			}
+
+			for(i = 0; i < 3; i++){
+				win = 1;
+				for(j = i; j < 6; j += 3){
+					if(game_state[j] != game_state[j+3]) win = 0;
+				}
+				if(win && game_state[i]){
+					show_winner(game_state[i]);
+				}
+			}
+
+			if(game_state[0] == game_state[4] && game_state[4] == game_state[8] &&
+				 game_state[0]){
+				show_winner(game_state[0]);
+			}
+			if(game_state[2] == game_state[4] && game_state[4] == game_state[6] &&
+				 game_state[2]){
+				show_winner(game_state[2]);
+			}
+		}
+
+		function show_winner(winner){
+			winner_message = document.getElementById("winner-message");
+			winner_message.innerText = "winner is player" + winner + "!";
+			isplaying = false;
+		}
+
+		function game_reset(){
+			// Array.prototype.forEach.call(game_cell, function(x){
+			// 	x.innerText = "";
+			// });
+			for(x of game_cell){
+				x.innerText = "";
+			}
+			winner_message = document.getElementById("winner-message");
+			winner_message.innerText = "";
+
+			game_state.fill(0);
+			cur_player = 1;
+			isplaying = true;
+		}
 	</script>
 </body>
 </html>
